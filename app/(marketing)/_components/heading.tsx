@@ -27,7 +27,8 @@ export const Heading = () => {
                     <Spinner size = "lg" />
                 </div>
             )}
-            {isAuthenticated && !isLoading && ( 
+            {/* This needs to be changed when I can figure out the issue with authentication. it should be && !isLoading */}
+            {!isAuthenticated && !isLoading && ( 
             <Button asChild>
                 <Link href="/documents">
                     Enter Brainwave
@@ -36,7 +37,7 @@ export const Heading = () => {
             </Button>
             )}
 
-            {!isAuthenticated && !isLoading && (
+            {/* {!isAuthenticated && !isLoading && (
                 <SignInButton mode ="modal" >
                     <Button>
                         Get Brainwave Free
@@ -47,7 +48,7 @@ export const Heading = () => {
 
 
                 </SignInButton>
-            )}
+            )} */}
         </div>
     );
 };

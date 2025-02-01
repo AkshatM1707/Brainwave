@@ -3,16 +3,16 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { ConvexClientProvider } from "@/components/providers/convex-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 
-const MarketingLayout = ({
+export default function MarketingLayout({
     children
 }: {
     children: React.ReactNode;
-}) => {
+}) {
     return (
         <ClerkProvider>
-            <ConvexClientProvider>
-                <html lang="en" suppressHydrationWarning>
-                    <body>
+            <html lang="en" suppressHydrationWarning>
+                <body>
+                    <ConvexClientProvider>
                         <ThemeProvider
                             attribute="class"
                             defaultTheme="system"
@@ -27,11 +27,10 @@ const MarketingLayout = ({
                                 </main>
                             </div>
                         </ThemeProvider>
-                    </body>
-                </html>
-            </ConvexClientProvider>
+                    </ConvexClientProvider>
+                </body>
+            </html>
         </ClerkProvider>
     );
 }
 
-export default MarketingLayout;

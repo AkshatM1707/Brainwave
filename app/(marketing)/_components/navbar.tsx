@@ -5,16 +5,16 @@ import { cn } from "@/lib/utils";
 import { Logo } from "./logo";
 import { ModeToggle } from "@/components/mode-toggle";
 import { useConvexAuth } from "convex/react";
-import { SignInButton, useClerk, useAuth } from "@clerk/nextjs";
+import { SignInButton, useClerk, useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/spinner";
-import Link  from "next/link";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export const Navbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
   const { signOut } = useClerk();
-  const { userId } = useAuth();
+  const { user } = useUser();
   const scrolled = useScrollTop();
   const router = useRouter();
 
@@ -37,7 +37,7 @@ export const Navbar = () => {
       <Logo />
       <div className="md:ml-auto md:justify-end justify-between w-full flex items-center gap-x-2">
         {isLoading && <Spinner />}
-        {(!isAuthenticated && !isLoading && !userId) && (
+        {!user && !isLoading && (
           <>
             <SignInButton mode="modal">
               <Button variant="ghost" size="sm">
@@ -50,13 +50,13 @@ export const Navbar = () => {
             </SignInButton>
           </>
         )}
-        {(isAuthenticated || userId) && !isLoading && (
+        {user && !isLoading && (
           <>
             <Button variant="ghost" size="sm" asChild>
               <Link href="/documents">Enter Brainwave</Link>
             </Button>
 
-            <Button size="lg" onClick={handleSignOut}>
+            <Button size="sm" onClick={handleSignOut}>
               Sign Out
             </Button>
           </>

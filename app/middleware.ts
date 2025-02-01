@@ -1,19 +1,18 @@
-// middleware.ts
-import { authMiddleware, redirectToSignIn } from "@clerk/nextjs";
+import { authMiddleware as clerkAuthMiddleware } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-export default authMiddleware({
+export default clerkAuthMiddleware({
   publicRoutes: ["/"],
   afterAuth(auth, req) {
-    // Handle users who aren't authenticated
     if (!auth.userId && !auth.isPublicRoute) {
-      return redirectToSignIn({ returnBackUrl: req.url });
+      const signInUrl = new URL('/sign-in', req.url);
+      signInUrl.searchParams.set('redirect_url', req.url);
+      return Response.redirect(signInUrl);
     }
-
     return NextResponse.next();
-  },
+  }
 });
 
 export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
 };
